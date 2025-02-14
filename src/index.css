@@ -7,13 +7,13 @@
 
 @layer base {
   body {
-    @apply bg-background text-accent min-h-screen antialiased;
+    @apply bg-background text-accent min-h-screen antialiased selection:bg-primary/20;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-lg bg-white/30 border border-white/20 shadow-xl;
+    @apply backdrop-blur-lg bg-white/30 border border-white/20 shadow-xl transition-all hover:shadow-2xl;
   }
   
   .gradient-bg {
@@ -21,10 +21,10 @@
   }
   
   .ambient-light {
-    @apply before:absolute before:w-[300px] before:h-[300px] before:rounded-full before:bg-primary/30 before:blur-3xl before:-z-10 before:animate-pulse;
+    @apply before:absolute before:w-[400px] before:h-[400px] before:rounded-full before:bg-primary/20 before:blur-[100px] before:-z-10 before:animate-pulse;
   }
 }
 
 .glow {
-  box-shadow: 0 0 50px rgba(155, 135, 245, 0.2);
+  box-shadow: 0 0 50px rgba(155, 135, 245, 0.3);
 }

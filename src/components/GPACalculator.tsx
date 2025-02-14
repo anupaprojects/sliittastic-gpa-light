@@ -53,42 +53,47 @@ const GPACalculator = () => {
   };
 
   return (
-    <div className="min-h-screen p-8 gradient-bg relative overflow-hidden">
-      <div className="absolute top-40 left-20 ambient-light" />
-      <div className="absolute bottom-40 right-20 ambient-light" />
+    <div className="min-h-screen px-4 py-12 md:py-16 gradient-bg relative overflow-hidden">
+      {/* Ambient lights with adjusted positioning */}
+      <div className="absolute top-1/4 left-1/4 ambient-light opacity-75" />
+      <div className="absolute bottom-1/4 right-1/4 ambient-light opacity-75" />
       
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-4xl font-bold mb-2 text-accent">
-            <Calculator className="inline-block mr-2 mb-1" />
-            SLIIT GPA Calculator
+      <div className="container max-w-3xl mx-auto relative z-10">
+        <div className="text-center mb-8 md:mb-12 animate-fade-in">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-accent flex items-center justify-center gap-3">
+            <Calculator className="w-8 h-8 md:w-10 md:h-10" />
+            <span>SLIIT GPA Calculator</span>
           </h1>
-          <p className="text-accent/60">Calculate your GPA with ease</p>
+          <p className="text-accent/60 text-lg">Calculate your GPA with ease</p>
         </div>
 
-        <div className="glass-card rounded-2xl p-8 mb-8 animate-scale-in">
+        <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 animate-scale-in">
           {courses.map((course, index) => (
-            <div key={index} className="flex gap-4 mb-4 animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+            <div 
+              key={index} 
+              className="flex flex-col sm:flex-row gap-3 mb-4 animate-slide-up" 
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
               <input
                 type="text"
                 placeholder="Course Name"
                 value={course.name}
                 onChange={(e) => updateCourse(index, 'name', e.target.value)}
-                className="flex-1 p-2 rounded-lg bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="flex-1 p-3 rounded-xl bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
               />
               <select
                 value={course.credits}
                 onChange={(e) => updateCourse(index, 'credits', parseInt(e.target.value))}
-                className="w-24 p-2 rounded-lg bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="sm:w-24 p-3 rounded-xl bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
               >
                 {[1, 2, 3, 4].map((credit) => (
-                  <option key={credit} value={credit}>{credit}</option>
+                  <option key={credit} value={credit}>{credit} Credits</option>
                 ))}
               </select>
               <select
                 value={course.grade}
                 onChange={(e) => updateCourse(index, 'grade', e.target.value)}
-                className="w-24 p-2 rounded-lg bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="sm:w-24 p-3 rounded-xl bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
               >
                 {grades.map((g) => (
                   <option key={g.grade} value={g.grade}>{g.grade}</option>
@@ -97,16 +102,16 @@ const GPACalculator = () => {
             </div>
           ))}
 
-          <div className="flex gap-4 mt-6">
+          <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <button
               onClick={addCourse}
-              className="px-6 py-2 rounded-lg bg-white/50 hover:bg-white/70 transition-colors border border-white/30"
+              className="px-6 py-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all border border-white/30 text-accent font-medium"
             >
               Add Course
             </button>
             <button
               onClick={calculateGPA}
-              className="px-6 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+              className="px-6 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition-all font-medium"
             >
               Calculate GPA
             </button>
@@ -114,18 +119,18 @@ const GPACalculator = () => {
         </div>
 
         {gpa !== null && (
-          <div className="glass-card rounded-2xl p-8 text-center animate-scale-in">
+          <div className="glass-card rounded-2xl p-8 text-center animate-scale-in mb-8">
             <h2 className="text-2xl font-semibold mb-4">Your GPA</h2>
-            <div className="text-6xl font-bold text-primary glow">{gpa.toFixed(2)}</div>
+            <div className="text-7xl font-bold text-primary glow py-6">{gpa.toFixed(2)}</div>
           </div>
         )}
 
-        <div className="glass-card rounded-2xl p-8 mt-8 animate-fade-in">
-          <h3 className="text-xl font-semibold mb-4">Grading Scale</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div className="glass-card rounded-2xl p-6 md:p-8 animate-fade-in">
+          <h3 className="text-2xl font-semibold mb-6 text-center">Grading Scale</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {grades.map((grade) => (
-              <div key={grade.grade} className="p-4 rounded-lg bg-white/50 border border-white/30">
-                <div className="text-lg font-bold text-primary">{grade.grade}</div>
+              <div key={grade.grade} className="p-4 rounded-xl bg-white/50 border border-white/30 hover:bg-white/60 transition-all">
+                <div className="text-xl font-bold text-primary mb-1">{grade.grade}</div>
                 <div className="text-sm text-accent/60">GPA: {grade.gpa}</div>
                 <div className="text-sm text-accent/60">Range: {grade.range}</div>
               </div>
