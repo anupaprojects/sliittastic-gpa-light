@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Calculator } from 'lucide-react';
+import { Calculator, Download, FileText, Award } from 'lucide-react';
 
 const grades = [
   { grade: 'A+', gpa: 4.0, range: '90-100' },
@@ -50,6 +50,34 @@ const GPACalculator = () => {
     });
 
     setGPA(totalCredits > 0 ? totalPoints / totalCredits : 0);
+  };
+
+  const downloadResults = () => {
+    if (!gpa) return;
+
+    let content = "SLIIT GPA Calculation Results\n\n";
+    content += "Courses:\n";
+    courses.forEach((course, index) => {
+      content += `${index + 1}. ${course.name || 'Unnamed Course'} - ${course.credits} credits - Grade: ${course.grade}\n`;
+    });
+    content += `\nFinal GPA: ${gpa.toFixed(2)}`;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gpa-results.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const getGPAColor = (gpa: number) => {
+    if (gpa >= 3.7) return 'text-emerald-500';
+    if (gpa >= 3.0) return 'text-blue-500';
+    if (gpa >= 2.0) return 'text-yellow-500';
+    return 'text-red-500';
   };
 
   return (
@@ -105,13 +133,13 @@ const GPACalculator = () => {
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <button
               onClick={addCourse}
-              className="px-6 py-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all border border-white/30 text-accent font-medium"
+              className="px-6 py-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all border border-white/30 text-accent font-medium flex items-center justify-center gap-2"
             >
               Add Course
             </button>
             <button
               onClick={calculateGPA}
-              className="px-6 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition-all font-medium"
+              className="px-6 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition-all font-medium flex items-center justify-center gap-2"
             >
               Calculate GPA
             </button>
@@ -119,17 +147,47 @@ const GPACalculator = () => {
         </div>
 
         {gpa !== null && (
-          <div className="glass-card rounded-2xl p-8 text-center animate-scale-in mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Your GPA</h2>
-            <div className="text-7xl font-bold text-primary glow py-6">{gpa.toFixed(2)}</div>
+          <div className="space-y-6 animate-scale-in">
+            <div className="glass-card rounded-2xl p-8 text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+              <div className="relative z-10">
+                <h2 className="text-2xl font-semibold mb-4 flex items-center justify-center gap-2">
+                  <Award className="w-6 h-6 text-primary" />
+                  Your GPA Summary
+                </h2>
+                <div className={`text-8xl font-bold ${getGPAColor(gpa)} glow py-6`}>
+                  {gpa.toFixed(2)}
+                </div>
+                <p className="text-accent/60 mt-4">
+                  Based on {courses.length} course{courses.length !== 1 ? 's' : ''}
+                </p>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-6 text-center">
+              <button
+                onClick={downloadResults}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition-all font-medium mx-auto"
+              >
+                <FileText className="w-5 h-5" />
+                Download Results
+                <Download className="w-4 h-4" />
+              </button>
+              <p className="text-sm text-accent/60 mt-3">
+                Download a detailed report of your GPA calculation
+              </p>
+            </div>
           </div>
         )}
 
-        <div className="glass-card rounded-2xl p-6 md:p-8 animate-fade-in">
+        <div className="glass-card rounded-2xl p-6 md:p-8 mt-8 animate-fade-in">
           <h3 className="text-2xl font-semibold mb-6 text-center">Grading Scale</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {grades.map((grade) => (
-              <div key={grade.grade} className="p-4 rounded-xl bg-white/50 border border-white/30 hover:bg-white/60 transition-all">
+              <div 
+                key={grade.grade} 
+                className="p-4 rounded-xl bg-white/50 border border-white/30 hover:bg-white/60 transition-all hover:shadow-lg hover:-translate-y-0.5"
+              >
                 <div className="text-xl font-bold text-primary mb-1">{grade.grade}</div>
                 <div className="text-sm text-accent/60">GPA: {grade.gpa}</div>
                 <div className="text-sm text-accent/60">Range: {grade.range}</div>
