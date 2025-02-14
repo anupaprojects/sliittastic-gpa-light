@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Calculator, Download, FileText, Award } from 'lucide-react';
 
@@ -80,9 +79,22 @@ const GPACalculator = () => {
     return 'text-red-500';
   };
 
+  const getPerformanceMessage = (gpa: number) => {
+    if (gpa >= 3.7) return "Dean's List - Outstanding Achievement!";
+    if (gpa >= 3.0) return "Excellent Performance!";
+    if (gpa >= 2.0) return "Good effort! Keep working to improve further.";
+    return "Below passing grade. Seek academic support to improve.";
+  };
+
+  const getPerformanceColor = (gpa: number) => {
+    if (gpa >= 3.7) return 'text-emerald-500';
+    if (gpa >= 3.0) return 'text-blue-500';
+    if (gpa >= 2.0) return 'text-yellow-500';
+    return 'text-red-500';
+  };
+
   return (
     <div className="min-h-screen px-4 py-12 md:py-16 gradient-bg relative overflow-hidden">
-      {/* Ambient lights with adjusted positioning */}
       <div className="absolute top-1/4 left-1/4 ambient-light opacity-75" />
       <div className="absolute bottom-1/4 right-1/4 ambient-light opacity-75" />
       
@@ -155,10 +167,13 @@ const GPACalculator = () => {
                   <Award className="w-6 h-6 text-primary" />
                   Your GPA Summary
                 </h2>
-                <div className={`text-8xl font-bold ${getGPAColor(gpa)} glow py-6`}>
+                <div className={`text-8xl font-bold ${getPerformanceColor(gpa)} glow py-6 rounded-2xl`}>
                   {gpa.toFixed(2)}
                 </div>
-                <p className="text-accent/60 mt-4">
+                <p className={`text-lg font-medium mt-4 ${getPerformanceColor(gpa)}`}>
+                  {getPerformanceMessage(gpa)}
+                </p>
+                <p className="text-accent/60 mt-2">
                   Based on {courses.length} course{courses.length !== 1 ? 's' : ''}
                 </p>
               </div>
