@@ -112,7 +112,7 @@ const GPACalculator = () => {
               <select
                 value={course.credits}
                 onChange={(e) => updateCourse(index, 'credits', parseInt(e.target.value))}
-                className="sm:w-24 p-3 rounded-xl bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="sm:w-32 p-3 rounded-xl bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
               >
                 {[1, 2, 3, 4].map((credit) => (
                   <option key={credit} value={credit}>{credit} Credits</option>
@@ -149,7 +149,7 @@ const GPACalculator = () => {
         {gpa !== null && (
           <div className="space-y-6 animate-scale-in">
             <div className="glass-card rounded-2xl p-8 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl" />
               <div className="relative z-10">
                 <h2 className="text-2xl font-semibold mb-4 flex items-center justify-center gap-2">
                   <Award className="w-6 h-6 text-primary" />
